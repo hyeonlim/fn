@@ -172,7 +172,7 @@ def main():
     cloud = Cloud()
     game_speed = 20
     x_pos_bg = 0
-    y_pos_bg = 380
+    y_pos_bg = 385
     points = 0
     
     font = pygame.font.Font('freesansbold.ttf', 20)
@@ -215,7 +215,7 @@ def main():
         player.update(userInput)
 
         if len(obstacles) == 0:
-            if random.randint(0, 5) == 0:
+            if random.randint(0, 2) == 0:
                 obstacles.append(SmallCactus(SMALL_CACTUS))
             elif random.randint(0, 2) == 1:
                 obstacles.append(LargeCactus(LARGE_CACTUS))
@@ -226,7 +226,7 @@ def main():
             obstacle.draw(SCREEN)
             obstacle.update()
             if player.dino_rect.colliderect(obstacle.rect):
-                pygame.time.delay(1000)
+                pygame.time.delay(2000)
                 death_count += 1
                 menu(death_count)
 
