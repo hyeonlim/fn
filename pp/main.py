@@ -1,6 +1,7 @@
 import pygame
 import os
 import random
+import keyboard
 pygame.init()
 
 # Global Constants
@@ -31,8 +32,8 @@ BG = pygame.image.load(os.path.join("Assets/Other", "Track.png"))
 
 class Dinosaur:
     X_POS = 80
-    Y_POS = 310
-    Y_POS_DUCK = 340
+    Y_POS = 300
+    Y_POS_DUCK = 330
     JUMP_VEL = 8.5
 
     def __init__(self):
@@ -172,7 +173,7 @@ def main():
     game_speed = 20
     x_pos_bg = 0
     y_pos_bg = 380
-    points = 1000
+    points = 0
     
     font = pygame.font.Font('freesansbold.ttf', 20)
     obstacles = []
@@ -180,15 +181,14 @@ def main():
 
     def score():
         global points, game_speed, death_count
-        points -= 1
+        points += 1
         if points % 100 == 0:
             game_speed += 1
-        if points == 0:
-            death_count = 1
-            menu(death_count)
+        # if (points//10) == 100:
+        #     death_count = 2
+        #     menu(death_count)
             
-
-        text = font.render("Time: " + str(1000-points), True, (0, 0, 0))
+        text = font.render("score: " + str(points // 10), True, (0, 0, 0))
         textRect = text.get_rect()
         textRect.center = (1000, 40)
         SCREEN.blit(text, textRect)
@@ -205,7 +205,7 @@ def main():
 
     while run:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if keyboard.is_pressed('Escape') or event.type == pygame.QUIT:
                 run = False
 
         SCREEN.fill((255, 255, 255))
@@ -215,7 +215,7 @@ def main():
         player.update(userInput)
 
         if len(obstacles) == 0:
-            if random.randint(0, 2) == 0:
+            if random.randint(0, 5) == 0:
                 obstacles.append(SmallCactus(SMALL_CACTUS))
             elif random.randint(0, 2) == 1:
                 obstacles.append(LargeCactus(LARGE_CACTUS))
@@ -226,7 +226,7 @@ def main():
             obstacle.draw(SCREEN)
             obstacle.update()
             if player.dino_rect.colliderect(obstacle.rect):
-                pygame.time.delay(2000)
+                pygame.time.delay(1000)
                 death_count += 1
                 menu(death_count)
 
@@ -247,21 +247,34 @@ def menu(death_count):
     while run:
         SCREEN.fill((255, 255, 255))
         font = pygame.font.Font('freesansbold.ttf', 30)
-
         if death_count == 0:
             text = font.render("Press any Key to Start", True, (0, 0, 0))
         elif death_count == 1:
-            run = False
+            text = font.render("Press any Key to Restart", True, (0, 0, 0))
+            score = font.render("Your Score: " + str(points // 10), True, (0, 0, 0))
+            scoreRect = score.get_rect()
+            scoreRect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 50)
+            SCREEN.blit(score, scoreRect)
+            
+        Qesc = font.render("Press ESC Key to Quit", True, (0, 0, 0))
+        QescRect = Qesc.get_rect()
+        QescRect.center = (SCREEN_WIDTH // 2 + 190, SCREEN_HEIGHT // 2 + 250)
+        SCREEN.blit(Qesc, QescRect.center)
+        
         textRect = text.get_rect()
         textRect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
         SCREEN.blit(text, textRect)
         SCREEN.blit(RUNNING[0], (SCREEN_WIDTH // 2 - 20, SCREEN_HEIGHT // 2 - 140))
-        pygame.display.update()
+        
         for event in pygame.event.get():
+            if keyboard.is_pressed('Escape'):
+                run = False
             if event.type == pygame.QUIT:
                 run = False
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN and not keyboard.is_pressed('Escape'):
                 main()
+                
+        pygame.display.update()
 
 
 menu(death_count=0)
