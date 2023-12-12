@@ -275,6 +275,6 @@ def menu(death_count):
                 main()
                 
         pygame.display.update()
-
+    print("score :",str(points // 10))
 
 menu(death_count=0)
