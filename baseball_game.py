@@ -5,6 +5,7 @@ numbers = []
 
 cnt_total = 0
 cnt_strike = 0
+cnt_out = 0
 
 rand_num = str(random.randint(0,9))
 
@@ -33,6 +34,7 @@ while(cnt_strike < 3):
                 elif num[i] == numbers [j] and i !=j:
                     cnt_ball += 1
         if cnt_strike == 0 and cnt_ball == 0:
+            cnt_out += 1
             print("아웃!!")
         else:
             output = ""
@@ -44,4 +46,11 @@ while(cnt_strike < 3):
         cnt_total += 1
         
 print("*" * 50)
+def get_score() :
+    score = 100
+    while True:
+        score = score - cnt_ball - cnt_strike *3 - cnt_out * 5
+        return score
+       
 print("{} 회 만에 성공!!".format(cnt_total))
+print("점수:",get_score(),"점")

@@ -14,6 +14,7 @@ if __name__=="__main__":
     chance = 10
     guess_number(answer, chance)  
         
+                       
 for attempt in range(1, chance + 1):
     guess = int(input(f"{attempt}번째 시도 - 추측한 숫자를 입력하세요:"))  
     if guess < answer:
@@ -25,15 +26,15 @@ for attempt in range(1, chance + 1):
         break
 else:
     print(f"아쉽게도 기회를 모두 사용하셨습니다. 정답은 {answer}입니다")
-
     
-class get_score() :
-   while attempt == 0:
-        if attempt <= 5:
-            score = 100
-            print(score)
-        else:
-            score_el = score - (attempt - 5)* 5  
-            print(score_el)    
+def get_score() :
+    score = 100
+    while True:
+        score = score - attempt * 5  
+        return score   
+                 
+print("점수:",get_score(),"점")
 
-get_score()
+
+
+

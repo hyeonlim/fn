@@ -2,6 +2,8 @@ import pygame
 import os
 import random
 import keyboard
+
+
 pygame.init()
 
 # Global Constants
@@ -180,18 +182,16 @@ def main():
     death_count = 0
 
     def score():
-        global points, game_speed, death_count
+        global points, game_speed
         points += 1
         if points % 100 == 0:
             game_speed += 1
-        # if (points//10) == 100:
-        #     death_count = 2
-        #     menu(death_count)
             
         text = font.render("score: " + str(points // 10), True, (0, 0, 0))
         textRect = text.get_rect()
         textRect.center = (1000, 40)
         SCREEN.blit(text, textRect)
+        
 
     def background():
         global x_pos_bg, y_pos_bg
@@ -256,25 +256,38 @@ def menu(death_count):
             scoreRect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 50)
             SCREEN.blit(score, scoreRect)
             
-        Qesc = font.render("Press ESC Key to Quit", True, (0, 0, 0))
-        QescRect = Qesc.get_rect()
-        QescRect.center = (SCREEN_WIDTH // 2 + 190, SCREEN_HEIGHT // 2 + 250)
-        SCREEN.blit(Qesc, QescRect.center)
+            Qesc = font.render("Press ESC Key to Quit", True, (0, 0, 0))
+            QescRect = Qesc.get_rect()
+            QescRect.center = (SCREEN_WIDTH // 2 + 190, SCREEN_HEIGHT // 2 + 250)
+            SCREEN.blit(Qesc, QescRect.center)
+            
+            
         
         textRect = text.get_rect()
         textRect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
         SCREEN.blit(text, textRect)
         SCREEN.blit(RUNNING[0], (SCREEN_WIDTH // 2 - 20, SCREEN_HEIGHT // 2 - 140))
         
+        Qesc = font.render("Press ESC Key to Quit", True, (0, 0, 0))
+        QescRect = Qesc.get_rect()
+        QescRect.center = (SCREEN_WIDTH // 2 + 190, SCREEN_HEIGHT // 2 + 250)
+        SCREEN.blit(Qesc, QescRect.center)
+            
         for event in pygame.event.get():
             if keyboard.is_pressed('Escape'):
-                run = False
+                score = points//10
+                exit()
+                    # return score
+                
             if event.type == pygame.QUIT:
-                run = False
+                score = points//10
+                exit()
+                    # return score
             if event.type == pygame.KEYDOWN and not keyboard.is_pressed('Escape'):
                 main()
-                
+        
         pygame.display.update()
-    print("score :",str(points // 10))
+    
 
 menu(death_count=0)
+
